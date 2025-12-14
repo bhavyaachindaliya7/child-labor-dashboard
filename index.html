@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Child Labor: Then vs Now</title>
+    
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.12/crossfilter.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/dc.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dc/4.2.7/style/dc.min.css">
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>🌍 Global Child Labor Data Explorer</h1>
+        <p>Analyze trends and distribution of child labor incidents across time and industries.</p>
+        <div id="stats-container">
+            Visible Records: <strong id="record-count">...</strong>
+        </div>
+    </header>
+
+    <div id="dashboard-container">
+        
+        <div class="row">
+            <div id="historical-chart-area" class="viz-panel full-width">
+                <h2>Total Incidents Over Time ⏳</h2>
+                <div id="historical-chart"></div>
+                <p class="viz-note">Drag and select a range of years to filter the entire dashboard.</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div id="industry-chart-area" class="viz-panel">
+                <h2>Child Labor by Industry 🏭</h2>
+                <div id="industry-chart"></div>
+                <p class="viz-note">Click a bar to filter all data by that industry. (Hover for facts)</p>
+            </div>
+
+            <div id="poverty-chart-area" class="viz-panel">
+                <h2>Incidents by Poverty Level 📉</h2>
+                <div id="poverty-chart"></div>
+                <p class="viz-note">Click a bar to filter by the region's poverty category. (Hover for facts)</p>
+            </div>
+
+            <div id="gdp-chart-area" class="viz-panel">
+                <h2>Incidents by Country GDP Bin 💰</h2>
+                <div id="gdp-chart"></div>
+                <p class="viz-note">Select a GDP bin to focus on countries with that economic status. (Hover for facts)</p>
+            </div>
+        </div>
+    </div>
+    
+    <div id="dashboard-container-2">
+        <div class="row">
+            <div id="country-chart-area" class="viz-panel large-panel">
+                <h2>Top Incidents by Country 📍</h2>
+                <div id="country-chart"></div>
+            </div>
+
+            <div id="pie-chart-area" class="viz-panel small-panel">
+                <h2>Industry Proportion (Pie) 🥧</h2>
+                <div id="pie-chart"></div>
+            </div>
+        </div>
+    </div>
+    <section id="image-context-gallery" class="facts-section">
+        <h2>📷 Then vs. Now: Visual Evidence</h2>
+        
+        <div class="image-row">
+            
+            <div class="image-card">
+                <h3>Historical Child Labor (c. 1900)</h3>
+                <img 
+                    src="historical_mill.jpg" 
+                    alt="Young children working dangerous machinery in a textile mill during the Industrial Revolution." 
+                    class="context-image"
+                >
+                <p><strong>Then:</strong> Child labor was often concentrated in dangerous industrial environments like textile mills and mines in the US and UK.</p>
+            </div>
+
+            <div class="image-card">
+                <h3>Current Global Prevalence (c. 2020)</h3>
+                <img 
+                    src="global_prevalence_map.png" 
+                    alt="Global map colored by child labor rate, showing highest prevalence in Africa." 
+                    class="context-image"
+                >
+                <p><strong>Now:</strong> Globally, child labor is highly concentrated in the **agriculture** sector and prevalent in Sub-Saharan Africa.</p>
+            </div>
+            
+        </div>
+        
+    </section>
+
+    <section class="facts-section comparison-section">
+        <h2>⚠️ The Human Cost: Consequences of Child Labor</h2>
+        <div class="comparison-grid">
+            <div class="comparison-column">
+                <h3>Physical & Psychological Harm</h3>
+                <ul>
+                    <li><strong>Health:</strong> Exposure to toxic pesticides in agriculture, extreme heat, heavy lifting leading to spinal damage, and high rates of industrial accidents.</li>
+                    <li><strong>Psychology:</strong> Long-term trauma, severe stress, anxiety, and depression resulting from exploitation, isolation, and violence.</li>
+                    <li><strong>Safety:</strong> Approximately **73 million children** work in hazardous conditions, which is one of the worst forms of child labor (ILO/UNICEF).</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h3>Economic & Social Impact</h3>
+                <ul>
+                    <li><strong>Education:</strong> Child laborers are deprived of schooling, trapping them and future generations in the cycle of poverty.</li>
+                    <li><strong>Development:</strong> Child labor inhibits a country's economic growth by creating an unskilled, low-wage adult workforce.</li>
+                    <li><strong>Global Goal:</strong> Sustainable Development Goal **Target 8.7** aims to end child labor in all its forms by 2025. Progress has slowed significantly.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+    
+    <section class="facts-section comparison-section">
+        <h2>⚖️ The Evolution of Exploitation: Then vs. Now</h2>
+        <div class="comparison-grid">
+            <div class="comparison-column">
+                <h3>THEN (Industrial Revolution Era)</h3>
+                <ul>
+                    <li><strong>Industry Focus:</strong> Primarily **Textiles, Mining, and Factories**. Work was often indoors in urban, industrial settings.</li>
+                    <li><strong>Working Hours:</strong> Routinely **12 to 14 hours per day**, 6 days a week, often with mandatory overtime.</li>
+                    <li><strong>Legal Context:</strong> Few or no laws restricting minimum age or hazardous work. Laws were state-specific and often ignored.</li>
+                    <li><strong>Worst Forms:</strong> High rates of accidents, lung diseases (dust inhalation), and physical deformities due to long hours and poor posture.</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h3>NOW (Global Modern Era)</h3>
+                <ul>
+                    <li><strong>Industry Focus:</strong> Primarily **Agriculture (70%)** and **Services**. Work is often outdoors, in remote rural areas, or supply chains.</li>
+                    <li><strong>Working Hours:</strong> Restricted by ILO conventions, but often exceeds 8 hours a day, especially in informal sectors. Hidden work makes enforcement difficult.</li>
+                    <li><strong>Legal Context:</strong> Globally regulated by ILO Conventions C138 (Minimum Age) and C182 (Worst Forms), but enforcement is weak in poverty-stricken regions.</li>
+                    <li><strong>Worst Forms:</strong> Hazardous work in mining, sexual exploitation, trafficking, and forced labor, often tied to global supply chains.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="facts-section comparison-section">
+        <h2>📊 Interpreting the Data: Poverty, Agriculture, and the Supply Chain</h2>
+        <div class="comparison-grid">
+            <div class="comparison-column">
+                <h3>The Poverty-Labor Trap</h3>
+                <p>The **Incidents by Poverty Level** chart directly illustrates a core driver of child labor: economic necessity. Regions classified as 'High Poverty' often show the highest absolute numbers of incidents.</p>
+                <ul>
+                    <li><strong>Rural Concentration:</strong> Because child labor is dominated by **Agriculture**, this issue is concentrated in rural areas where families rely on child inputs for subsistence farming or small cash crops.</li>
+                    <li><strong>Informal Economy:</strong> In low GDP countries, labor laws are often ineffective in the vast informal sectors, where children are easily exploited and hidden from inspectors.</li>
+                </ul>
+            </div>
+            <div class="comparison-column">
+                <h3>Our Role in the Global Supply Chain</h3>
+                <p>The connection between your local supermarket and global child labor is the **Supply Chain**. This is where demand from high-GDP countries drives exploitation in low-GDP nations.</p>
+                <ul>
+                    <li><strong>Key Products:</strong> Common products linked to child labor include cocoa (chocolate), cotton (clothing), coffee, tobacco, and mining minerals (electronics).</li>
+                    <li><strong>Lack of Transparency:</strong> The complexity of modern supply chains allows companies to deny responsibility, making it difficult for consumers to track the origin of goods.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="facts-section action-section">
+        <h2>🤝 Taking Action: What Can Consumers Do?</h2>
+        <p>Data awareness is the first step. Here are practical ways you can help reduce the global demand for child labor:</p>
+        
+        <div class="action-points">
+            <ul>
+                <li><strong>Look for Certification:</strong> Purchase products with certifications like **Fair Trade**, Rainforest Alliance, or RugMark, which guarantee labor standards and audit their supply chains.</li>
+                <li><strong>Demand Transparency:</strong> Use your voice (online reviews, social media) to ask brands, especially clothing and electronics companies, about the specific origin and labor conditions of their materials.</li>
+            </ul>
+            <ul>
+                <li><strong>Support Education:</strong> Donate to or support NGOs (like UNICEF and local charities) that focus on providing education, vocational training, and family income support in high-risk areas.</li>
+                <li><strong>Educate Others:</strong> Share the data and resources from this dashboard with friends, family, and social networks to raise collective awareness about supply chain issues.</li>
+            </ul>
+        </div>
+    </section>
+    
+    <section class="facts-section video-section">
+        <h2>🎬 Video Resources (Deep Dives)</h2>
+        <p>Watch these videos for deeper context and real-world reports on child labor:</p>
+        <ul>
+            <li>
+                <strong>Current Global Crisis:</strong> <a href="https://www.youtube.com/watch?v=S21X1Qz1sU0" target="_blank">Child Labour in Africa and Asia (UNICEF/ILO Global Trends)</a>
+            </li>
+            <li>
+                <strong>Supply Chain Focus:</strong> <a href="https://www.youtube.com/watch?v=n5lYn_1r-sI" target="_blank">The Hidden Cost of Our Clothes: Child Labour in the Fashion Industry</a>
+            </li>
+            <li>
+                <strong>Historical Perspective:</strong> <a href="https://www.youtube.com/watch?v=sO3H9QoX70Y" target="_blank">The Rise of Child Labor Laws in the USA (Historical Documentary)</a>
+            </li>
+        </ul>
+        
+        <h2 style="margin-top: 30px;">📰 Article Links (In-Depth Reading)</h2>
+        <p>Read current articles and reports from leading organizations:</p>
+        <ul>
+            <li>
+                <strong>ILO Report:</strong> <a href="https://www.ilo.org/global/topics/child-labour/lang--en/index.htm" target="_blank">International Labour Organization (ILO) on Child Labour</a>
+            </li>
+            <li>
+                <strong>UNICEF Data:</strong> <a href="https://data.unicef.org/topic/child-protection/child-labour/" target="_blank">UNICEF - Data on Child Labour</a>
+            </li>
+            <li>
+                <strong>Global Progress:</strong> <a href="https://www.hrw.org/topic/childrens-rights/child-labor" target="_blank">Human Rights Watch (HRW) - Latest on Child Labor</a>
+            </li>
+        </ul>
+    </section>
+    
+    <div id="chart-tooltip" class="custom-tooltip"></div>
+    
+    <script src="data.js"></script>
+    <script src="script.js"></script>
+    
+</body>
+</html>
